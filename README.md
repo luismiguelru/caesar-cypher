@@ -1,7 +1,5 @@
 # caesar-cypher
 
-# caesar-cypher
-
 > We're going to jump into the theoretical knowledge you'll need when writing the final project. Let's learn more about cryptology and its constituent parts. And at the same time, we'll learn more about the cipher that you will use when writing the final project...
 
 ----------------------------------------
