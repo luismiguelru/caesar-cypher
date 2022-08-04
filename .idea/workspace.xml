@@ -2,7 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="c167a97d-7bda-48a1-9d4b-ea75ef74611e" name="Changes" comment="Coding our CaesarCypher implementation on Java">
+      <change afterPath="$PROJECT_DIR$/src/cc/codegym/java/CaesarCypherIO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/cc/codegym/java/Decryption.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/cc/codegym/java/EncryptMode.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/cc/codegym/java/InteractionWithUser.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/caesar-cypher/cc/codegym/java/Application.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/caesar-cypher/cc/codegym/java/Application.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/caesar-cypher/cc/codegym/java/CaesarCypher.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/caesar-cypher/cc/codegym/java/CaesarCypher.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/cc/codegym/java/Application.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/cc/codegym/java/Application.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/cc/codegym/java/CaesarCypher.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/cc/codegym/java/CaesarCypher.java" afterDir="false" />
     </list>

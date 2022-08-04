@@ -46,25 +46,4 @@ public class CaesarCypher {
         return cypheredMessage.toString();
     }
 
-    public String cypherTwo (String text){
-        StringBuilder cypheredMessage = new StringBuilder();
-        String copy = text;
-        char[] copyChar =  copy.toCharArray();
-        Character[] charArrBoxed = new String(copyChar).chars()
-                .mapToObj(c ->(char)c)
-                .toArray(Character[]::new);
-
-
-         for (int i = 0; i < charArrBoxed.length ; i++){
-            if ( charArrBoxed[i].toString().matches(PATTERN) || charArrBoxed[i].toString().matches(PATTERNTWO)
-            || charArrBoxed[i].toString().matches(PATTERNTHREE))
-            {
-                char ca = (char)(text.charAt(i)+ cypherKey);
-                cypheredMessage.append(ca);
-             }
-
-            }
-
-        return cypheredMessage.toString();
-         }
 }
