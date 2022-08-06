@@ -10,14 +10,19 @@ public class Application {
         //CaesarCypherIO cypher = new CaesarCypherIO(3);
         EncryptMode encryptMode = new EncryptMode();
         Decryption decryption = new Decryption();
-
-        String operation;
-        // Get the user's name.
-
-        operation = JOptionPane.showInputDialog("What you would like to do, Encrypt or decryption, type E or D ");
+        BruteForce bruteForce = new BruteForce();
 
 
-        if (operation.equalsIgnoreCase("e")){
+
+       bruteForce.caesar_cipher_brute_force_attack("C:\\Users\\Usuario\\test.txt");
+
+       //String operation;
+
+        //operation = JOptionPane.showInputDialog("What you would like to do, Encrypt or decryption, type E or D ");
+
+//Code to show up the dialog boxes
+
+        /* if (operation.equalsIgnoreCase("e")){
             String input = JOptionPane.showInputDialog("Please provide a path ");
             String data  = input;
             String inputKey = JOptionPane.showInputDialog("Please provide a key ");
@@ -33,7 +38,9 @@ public class Application {
             CaesarCypherIO cypher = new CaesarCypherIO(key);
             decryption.Decryption(data);
             JOptionPane.showMessageDialog(null, "The decyphered code is within your Destopk");
-        }
+        }*/
+
+
 
        // String originalMessage = " Java";
        // String cypheredMessage = cypher.cypher(originalMessage);
