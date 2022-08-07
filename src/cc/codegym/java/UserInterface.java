@@ -8,50 +8,90 @@ import java.io.File;
 
 public class UserInterface implements ActionListener {
 
-    EncryptMode encryptMode = new EncryptMode();
+    EncryptMode encryptMode;
+    Decryption decryption;
+    BruteForce bruteForce = new BruteForce();
+    private static String input;
     static JFrame jframe;
-    public void start() {
-        jframe = new JFrame("Cypher Tool");   //create JFrame object
 
+    public void start() {
+
+        jframe = new JFrame("Cypher Tool");//create JFrame object
         jframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         jframe.setSize(500, 300);         //set size of GUI screen
         jframe.setLayout(null);
 
-        JButton pressButton = new JButton("Encrypt");  //create JButton object
-        JButton secondButton = new JButton("Decrypt");
+        JButton encryptDecryptButton = new JButton("Encrypt & Decrypt with a key");  //create JButton object
+        JButton secondButton = new JButton("Cryptoanalysis");
 
-        pressButton.setBounds(100, 10, 100, 30);
-        secondButton.setBounds(300, 10, 100, 30);
+        encryptDecryptButton.setBounds(50, 20, 199, 70);
+        secondButton.setBounds(300, 20, 160, 70);
 
-        jframe.add(pressButton);
-        pressButton.addActionListener(new ActionListener()
+        jframe.getContentPane().add(encryptDecryptButton);
+        encryptDecryptButton.addActionListener(new ActionListener()
         {
             public void actionPerformed(ActionEvent e)
             {
                 //show jdialog when button is clicked
-                JOptionPane.showMessageDialog(pressButton,"please provide a path");
-                selectFile();
+                String encrypt ="Encrypt with a key";
+                String decrypt = "Decryption with a key";
+
+
+                String[] choices = { encrypt,decrypt};
+                String option = (String) JOptionPane.showInputDialog(null, "Please selection an option",
+                        "CryptoTool", JOptionPane.QUESTION_MESSAGE, null,
+                        choices,
+                        choices[0]);
+
+                if (option.equals(encrypt)){
+                    input = (String) JOptionPane.showInputDialog(null, "Please provide a key number",
+                            "CryptoTool", JOptionPane.QUESTION_MESSAGE);
+
+                    JOptionPane.showMessageDialog(encryptDecryptButton,"Please provide a path");
+                    selectFileEncrypt();
+                } else {
+                    input = (String) JOptionPane.showInputDialog(null, "Please provide a key number",
+                            "CryptoTool", JOptionPane.QUESTION_MESSAGE);
+
+                    JOptionPane.showMessageDialog(encryptDecryptButton,"Please provide a path");
+                    selectFileDecrypt();
+                }
+
 
             }
         });
 
-        jframe.add(secondButton);
+
+        jframe.getContentPane().add(secondButton);
         secondButton.addActionListener(new ActionListener()
         {
             public void actionPerformed(ActionEvent e)
             {
-                String[] choices = { "Decryption with Brute Force", "Decryption with statistic mode"};
-                String input = (String) JOptionPane.showInputDialog(null, "Please selection an option",
+                String optionFirst="Decryption with Brute Force";
+                String optionTwo="Decryption with statistic mode";
+                String[] choices = { optionFirst,optionTwo};
+                String option = (String) JOptionPane.showInputDialog(null, "Please selection an option",
                         "CryptoTool", JOptionPane.QUESTION_MESSAGE, null,
                         choices,
                         choices[0]);
-                System.out.println(input);
+
+                if(option.equals(optionFirst)){
+
+                    JOptionPane.showMessageDialog(secondButton,"Please provide a path");
+                    selectFileDecryptBruteForce();
+
+                }
+
 
             }
         });
         jframe.setLocationRelativeTo(null);
 
         jframe.setVisible(true);
+
+
+
+
     }
 
 
@@ -60,17 +100,48 @@ public class UserInterface implements ActionListener {
 
     }
 
-    public void selectFile() {
+    public void selectFileEncrypt() {
         JFileChooser chooser = new JFileChooser();
         // optionally set chooser options ...
         String userHomeFolder = System.getProperty("user.home");
 
         if (chooser.showOpenDialog(jframe) == JFileChooser.APPROVE_OPTION) {
             File f = chooser.getSelectedFile();
-            encryptMode.Encryption(f.toString());
+            encryptMode = new EncryptMode(Integer.parseInt(input));
+            encryptMode.Encryption(f.toString(),Integer.parseInt(input));
+            JOptionPane.showMessageDialog(jframe,"Your file is in your " + userHomeFolder);
+        } else {
+            // user changed their mind
+        }
+    }
+
+    public void selectFileDecrypt() {
+        JFileChooser chooser = new JFileChooser();
+        // optionally set chooser options ...
+        String userHomeFolder = System.getProperty("user.home");
+
+        if (chooser.showOpenDialog(jframe) == JFileChooser.APPROVE_OPTION) {
+            File f = chooser.getSelectedFile();
+            decryption = new Decryption(Integer.parseInt(input));
+            decryption.Decryption(f.toString(),Integer.parseInt(input));
+            JOptionPane.showMessageDialog(jframe,"Your file is in your " + userHomeFolder);
+        } else {
+            // user changed their mind
+        }
+    }
+
+    public void selectFileDecryptBruteForce() {
+        JFileChooser chooser = new JFileChooser();
+        // optionally set chooser options ...
+        String userHomeFolder = System.getProperty("user.home");
+
+        if (chooser.showOpenDialog(jframe) == JFileChooser.APPROVE_OPTION) {
+            File f = chooser.getSelectedFile();
+           bruteForce.caesar_cipher_brute_force_attack(f.toString());
             JOptionPane.showMessageDialog(jframe,"Your file is in your " + userHomeFolder);
         } else {
             // user changed their mind
         }
     }
 }
+

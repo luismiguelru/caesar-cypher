@@ -17,7 +17,7 @@ public class CaesarCypherIO {
         this.cypherKey = cypherKey;
     }
 
-    public String cypher (String text){
+    public String cypher (String text, int cypherKey){
         StringBuilder cypheredMessage = new StringBuilder();
         String copy = text;
         char[] copyChar =  copy.toCharArray();
@@ -38,7 +38,7 @@ public class CaesarCypherIO {
 
         return cypheredMessage.toString();
     }
-    public String decypher (String text){
+    public String decypher (String text, int cypherKey){
         StringBuilder cypheredMessage = new StringBuilder();
         String copy = text;
         char[] copyChar =  copy.toCharArray();

@@ -2,11 +2,17 @@ package cc.codegym.java;
 
 import java.io.*;
 
-public class EncryptMode {
+public class EncryptMode extends CaesarCypherIO{
 
-    CaesarCypherIO cypher = new CaesarCypherIO(3);
+    private int cypherkey;
+    public EncryptMode(int cypherKey) {
+        super(cypherKey);
+        cypherkey = cypherKey;
+    }
 
-    public void Encryption (String text) {
+    CaesarCypherIO cypher = new CaesarCypherIO(cypherkey);
+
+    public void Encryption (String text, int cypherkey) {
 
 
         try {
@@ -18,7 +24,7 @@ public class EncryptMode {
             FileWriter fw = new FileWriter(textFile);
 
             for (String line; (line = b.readLine()) != null; ) {
-                line = cypher.cypher(line);
+                line = cypher.cypher(line, cypherkey);
                 fw.write(line);
 
             }

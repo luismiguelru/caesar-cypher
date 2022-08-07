@@ -2,11 +2,18 @@ package cc.codegym.java;
 
 import java.io.*;
 
-public class Decryption {
+public class Decryption extends CaesarCypherIO {
 
-    CaesarCypherIO cypher = new CaesarCypherIO(3);
+    private int cypherkey;
 
-    public void Decryption (String text) {
+    public Decryption(int cypherKey) {
+        super(cypherKey);
+        cypherkey=cypherKey;
+    }
+
+    CaesarCypherIO cypher=new CaesarCypherIO(cypherkey);
+
+    public void Decryption (String text, int cypherkey) {
 
 
         try {
@@ -18,7 +25,7 @@ public class Decryption {
             FileWriter fw = new FileWriter(textFile);
 
             for (String line; (line = b.readLine()) != null; ) {
-                line = cypher.decypher(line);
+                line = cypher.decypher(line, cypherkey);
                 fw.write(line);
 
             }

@@ -8,8 +8,8 @@ import java.util.Scanner;
 public class Application {
     public static void main(String[] args) {
         //CaesarCypherIO cypher = new CaesarCypherIO(3);
-        EncryptMode encryptMode = new EncryptMode();
-        Decryption decryption = new Decryption();
+        //EncryptMode encryptMode = new EncryptMode();
+        //Decryption decryption = new Decryption();
         BruteForce bruteForce = new BruteForce();
 
         UserInterface userInterface = new UserInterface();
