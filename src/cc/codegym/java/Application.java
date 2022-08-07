@@ -12,13 +12,15 @@ public class Application {
         Decryption decryption = new Decryption();
         BruteForce bruteForce = new BruteForce();
 
+        UserInterface userInterface = new UserInterface();
+        userInterface.start();
 
 
-       bruteForce.caesar_cipher_brute_force_attack("C:\\Users\\Usuario\\test.txt");
+       //bruteForce.caesar_cipher_brute_force_attack("C:\\Users\\Usuario\\test.txt");
 
-       //String operation;
+     //  String operation;
 
-        //operation = JOptionPane.showInputDialog("What you would like to do, Encrypt or decryption, type E or D ");
+       // operation = JOptionPane.showInputDialog("What you would like to do, Encrypt or decryption, type E or D ");
 
 //Code to show up the dialog boxes
 
