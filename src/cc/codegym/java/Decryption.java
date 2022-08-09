@@ -23,14 +23,18 @@ public class Decryption extends CaesarCypherIO {
             String userHomeFolder = System.getProperty("user.home");
             File textFile = new File(userHomeFolder, "decyphered.txt");
             FileWriter fw = new FileWriter(textFile);
+            BufferedWriter bufferedWriter = new BufferedWriter(fw);
 
             for (String line; (line = b.readLine()) != null; ) {
                 line = cypher.decypher(line, cypherkey);
-                fw.write(line);
+                //fw.write(line);
+                bufferedWriter.write(line);
+                bufferedWriter.newLine();
 
             }
-            fw.flush();
-            fw.close();
+            bufferedWriter.close();
+           // fw.flush();
+            //fw.close();
 
         } catch (
                 IOException e) {

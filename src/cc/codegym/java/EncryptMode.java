@@ -22,14 +22,19 @@ public class EncryptMode extends CaesarCypherIO{
             String userHomeFolder = System.getProperty("user.home");
             File textFile = new File(userHomeFolder, "cyphered.txt");
             FileWriter fw = new FileWriter(textFile);
+            BufferedWriter bufferedWriter = new BufferedWriter(fw);
 
             for (String line; (line = b.readLine()) != null; ) {
                 line = cypher.cypher(line, cypherkey);
-                fw.write(line);
+               // fw.write(line);
+                bufferedWriter.write(line);
+                bufferedWriter.newLine();
+
 
             }
-            fw.flush();
-            fw.close();
+            //fw.flush();
+           // fw.close();
+            bufferedWriter.close();
 
         } catch (
                 IOException e) {

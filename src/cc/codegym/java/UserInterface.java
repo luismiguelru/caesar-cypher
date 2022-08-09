@@ -4,13 +4,13 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
+import java.io.*;
 
 public class UserInterface implements ActionListener {
 
     EncryptMode encryptMode;
     Decryption decryption;
-    BruteForce bruteForce = new BruteForce();
+    BruteForce bruteForce;
     private static String input;
     static JFrame jframe;
 
@@ -37,28 +37,36 @@ public class UserInterface implements ActionListener {
                 String decrypt = "Decryption with a key";
 
 
+
                 String[] choices = { encrypt,decrypt};
                 String option = (String) JOptionPane.showInputDialog(null, "Please selection an option",
                         "CryptoTool", JOptionPane.QUESTION_MESSAGE, null,
                         choices,
                         choices[0]);
 
-                if (option.equals(encrypt)){
-                    input = (String) JOptionPane.showInputDialog(null, "Please provide a key number",
-                            "CryptoTool", JOptionPane.QUESTION_MESSAGE);
+                    try {
 
-                    JOptionPane.showMessageDialog(encryptDecryptButton,"Please provide a path");
-                    selectFileEncrypt();
-                } else {
-                    input = (String) JOptionPane.showInputDialog(null, "Please provide a key number",
-                            "CryptoTool", JOptionPane.QUESTION_MESSAGE);
+                   if (option.equals(encrypt)) {
+                       input = (String) JOptionPane.showInputDialog(null, "Please provide a key number",
+                               "CryptoTool", JOptionPane.QUESTION_MESSAGE);
 
-                    JOptionPane.showMessageDialog(encryptDecryptButton,"Please provide a path");
-                    selectFileDecrypt();
+                       JOptionPane.showMessageDialog(encryptDecryptButton, "Please provide a path");
+                       selectFileEncrypt();
+                   } else {
+                       input = (String) JOptionPane.showInputDialog(null, "Please provide a key number",
+                               "CryptoTool", JOptionPane.QUESTION_MESSAGE);
+
+                       JOptionPane.showMessageDialog(encryptDecryptButton, "Please provide a path");
+                       selectFileDecrypt();
+                   } } catch (NullPointerException nullPointerException){
+                        JOptionPane.showConfirmDialog(encryptDecryptButton, "Are you sure to close this tab");
+                    }
+
+
                 }
 
 
-            }
+
         });
 
 
@@ -75,10 +83,20 @@ public class UserInterface implements ActionListener {
                         choices,
                         choices[0]);
 
+
+
                 if(option.equals(optionFirst)){
 
                     JOptionPane.showMessageDialog(secondButton,"Please provide a path");
                     selectFileDecryptBruteForce();
+
+                } else if (option.equals(optionTwo)) {
+                    JOptionPane.showMessageDialog(secondButton,"Please provide a path");
+                    try {
+                        selectFileDecryptStatisticMode();
+                    } catch (IOException ex) {
+                        throw new RuntimeException(ex);
+                    }
 
                 }
 
@@ -102,7 +120,7 @@ public class UserInterface implements ActionListener {
 
     public void selectFileEncrypt() {
         JFileChooser chooser = new JFileChooser();
-        // optionally set chooser options ...
+
         String userHomeFolder = System.getProperty("user.home");
 
         if (chooser.showOpenDialog(jframe) == JFileChooser.APPROVE_OPTION) {
@@ -111,7 +129,7 @@ public class UserInterface implements ActionListener {
             encryptMode.Encryption(f.toString(),Integer.parseInt(input));
             JOptionPane.showMessageDialog(jframe,"Your file is in your " + userHomeFolder);
         } else {
-            // user changed their mind
+
         }
     }
 
@@ -132,15 +150,45 @@ public class UserInterface implements ActionListener {
 
     public void selectFileDecryptBruteForce() {
         JFileChooser chooser = new JFileChooser();
-        // optionally set chooser options ...
         String userHomeFolder = System.getProperty("user.home");
 
         if (chooser.showOpenDialog(jframe) == JFileChooser.APPROVE_OPTION) {
             File f = chooser.getSelectedFile();
+            bruteForce = new BruteForce();
            bruteForce.caesar_cipher_brute_force_attack(f.toString());
             JOptionPane.showMessageDialog(jframe,"Your file is in your " + userHomeFolder);
         } else {
             // user changed their mind
+        }
+    }
+
+    public void selectFileDecryptStatisticMode() throws IOException {
+        JFileChooser chooser = new JFileChooser();
+        String userHomeFolder = System.getProperty("user.home");
+        CaesarCypherStatisticMode statisticMode = new CaesarCypherStatisticMode();
+        int key=0;
+
+        if (chooser.showOpenDialog(jframe) == JFileChooser.APPROVE_OPTION) {
+            File f = chooser.getSelectedFile();
+
+            File file = new File(f.toURI());
+            BufferedReader b = new BufferedReader(new FileReader(file));
+            File textFile = new File(userHomeFolder, "decypheredStatisticMode.txt");
+            FileWriter fw = new FileWriter(textFile);
+            BufferedWriter bufferedWriter = new BufferedWriter(fw);
+
+            for (String line; (line = b.readLine()) != null; ) {
+                key = statisticMode.breakCipher(line);
+                CaesarCypherIO cypherIO = new CaesarCypherIO(key);
+                bufferedWriter.write(cypherIO.decypher(line,key));
+                bufferedWriter.newLine();
+
+            }
+            bufferedWriter.close();
+
+            JOptionPane.showMessageDialog(jframe,"Your file is in your " + userHomeFolder);
+        } else {
+            JOptionPane.showConfirmDialog(jframe,"Are you sure?");
         }
     }
 }
