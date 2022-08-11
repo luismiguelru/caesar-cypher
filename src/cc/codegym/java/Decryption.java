@@ -5,7 +5,6 @@ import java.io.*;
 public class Decryption extends CaesarCypherIO {
 
     private int cypherkey;
-
     public Decryption(int cypherKey) {
         super(cypherKey);
         cypherkey=cypherKey;
@@ -27,14 +26,12 @@ public class Decryption extends CaesarCypherIO {
 
             for (String line; (line = b.readLine()) != null; ) {
                 line = cypher.decypher(line, cypherkey);
-                //fw.write(line);
                 bufferedWriter.write(line);
                 bufferedWriter.newLine();
 
             }
             bufferedWriter.close();
-           // fw.flush();
-            //fw.close();
+
 
         } catch (
                 IOException e) {

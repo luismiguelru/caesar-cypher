@@ -9,11 +9,10 @@ public class BruteForce {
     {
 
         /*
-         * Here we will try all possible keys in the range [1-255]
-         * and if there are some special symbols other than some commonly used symbols
-         * in a conversation.
+          Here we will try all possible keys in the range [1-255]
+          and if there are some special symbols other than some commonly used symbols
+          in a conversation.
          */
-        System.out.println("Starting brute force");
         HashSet<Character> special_symbols=new HashSet<Character>();
         special_symbols.add('<');  special_symbols.add('>'); special_symbols.add('?');
         special_symbols.add('/');  special_symbols.add(':'); special_symbols.add(';');
@@ -60,7 +59,6 @@ public class BruteForce {
             }
             if(print == true)
             {
-               // fw.write(key+" "+out);
                 bufferedWriter.write(key + " " + out);
                 bufferedWriter.newLine();
             }
@@ -78,7 +76,6 @@ public class BruteForce {
             e.printStackTrace();
         }
 
-        System.out.println("End of brute force");
 
     }
 

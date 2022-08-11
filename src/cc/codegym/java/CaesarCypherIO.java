@@ -48,13 +48,8 @@ public class CaesarCypherIO {
 
 
         for (int i = 0; i < charArrBoxed.length ; i++){
-           // if ( charArrBoxed[i].toString().matches(PATTERN) || charArrBoxed[i].toString().matches(PATTERNTWO)
-                 //   || charArrBoxed[i].toString().matches(PATTERNTHREE))
-         //   {
                 char ca = (char)(text.charAt(i) - cypherKey);
                 cypheredMessage.append(ca);
-           // }
-
         }
 
         return cypheredMessage.toString();

@@ -32,8 +32,6 @@ public class EncryptMode extends CaesarCypherIO{
 
 
             }
-            //fw.flush();
-           // fw.close();
             bufferedWriter.close();
 
         } catch (

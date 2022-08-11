@@ -1,12 +1,14 @@
 package cc.codegym.java;
 
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.*;
+import java.util.Scanner;
 
-public class UserInterface implements ActionListener {
+public class UserGUI {
 
     EncryptMode encryptMode;
     Decryption decryption;
@@ -14,29 +16,63 @@ public class UserInterface implements ActionListener {
     private static String input;
     static JFrame jframe;
 
+    private static final String PATTERN_NUMBERS = "[0-9]";
+    private static JButton encryptDecryptButton;
+    private static JButton decryptButton;
+
+
     public void start() {
 
         jframe = new JFrame("Cypher Tool");//create JFrame object
-        jframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+       addQuestionExitButton();
+
         jframe.setSize(500, 300);         //set size of GUI screen
         jframe.setLayout(null);
 
-        JButton encryptDecryptButton = new JButton("Encrypt & Decrypt with a key");  //create JButton object
-        JButton secondButton = new JButton("Cryptoanalysis");
+        encryptDecryptButton = new JButton("Encrypt & Decrypt with a key");  //create JButton object
+        decryptButton = new JButton("Cryptoanalysis");
 
         encryptDecryptButton.setBounds(50, 20, 199, 70);
-        secondButton.setBounds(300, 20, 160, 70);
+        decryptButton.setBounds(300, 20, 160, 70);
 
         jframe.getContentPane().add(encryptDecryptButton);
+        encryptDecryptButtonAction();
+        jframe.getContentPane().add(decryptButton);
+       decryptButtonAction();
+        jframe.setLocationRelativeTo(null);
+
+        jframe.setVisible(true);
+
+
+    }
+
+    public void addQuestionExitButton(){
+        jframe.addWindowListener(new WindowAdapter() {
+            public void windowClosing(WindowEvent evt) {
+                int resp = JOptionPane.showConfirmDialog(jframe, "Are you sure you want to exit?",
+                        "Exit?", JOptionPane.YES_NO_OPTION);
+
+                if (resp == JOptionPane.YES_OPTION) {
+                    jframe.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                } else {
+                    jframe.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+                }
+            }
+
+        });
+    }
+
+    public void encryptDecryptButtonAction(){
+
+        jframe.getContentPane().add(encryptDecryptButton);
+
         encryptDecryptButton.addActionListener(new ActionListener()
         {
             public void actionPerformed(ActionEvent e)
             {
-                //show jdialog when button is clicked
                 String encrypt ="Encrypt with a key";
                 String decrypt = "Decryption with a key";
-
-
 
                 String[] choices = { encrypt,decrypt};
                 String option = (String) JOptionPane.showInputDialog(null, "Please selection an option",
@@ -44,34 +80,56 @@ public class UserInterface implements ActionListener {
                         choices,
                         choices[0]);
 
-                    try {
+                try {
 
-                   if (option.equals(encrypt)) {
-                       input = (String) JOptionPane.showInputDialog(null, "Please provide a key number",
-                               "CryptoTool", JOptionPane.QUESTION_MESSAGE);
+                    if (option.equals(encrypt)) {
+                        try {
+                            input = JOptionPane.showInputDialog(null, "Please provide a key number",
+                                    "CryptoTool", JOptionPane.QUESTION_MESSAGE);
 
-                       JOptionPane.showMessageDialog(encryptDecryptButton, "Please provide a path");
-                       selectFileEncrypt();
-                   } else {
-                       input = (String) JOptionPane.showInputDialog(null, "Please provide a key number",
-                               "CryptoTool", JOptionPane.QUESTION_MESSAGE);
+                            while (input.isEmpty() || !(input.matches(PATTERN_NUMBERS))){
+                                input = JOptionPane.showInputDialog(null, "Please provide a key number",
+                                        "CryptoTool", JOptionPane.QUESTION_MESSAGE);
+                                if(input.matches(PATTERN_NUMBERS)) break;
+                            }
 
-                       JOptionPane.showMessageDialog(encryptDecryptButton, "Please provide a path");
-                       selectFileDecrypt();
-                   } } catch (NullPointerException nullPointerException){
-                        JOptionPane.showConfirmDialog(encryptDecryptButton, "Are you sure to close this tab");
-                    }
+                        }catch (NumberFormatException numberFormatException){
+                            JOptionPane.showConfirmDialog(encryptDecryptButton, "Are you sure to close this tab","Exit?",
+                                    JOptionPane.YES_NO_OPTION);
+
+                        }
 
 
+
+                        JOptionPane.showMessageDialog(encryptDecryptButton, "Please provide a path");
+                        selectFileEncrypt();
+                    } else {
+                        input = (String) JOptionPane.showInputDialog(null, "Please provide a key number",
+                                "CryptoTool", JOptionPane.QUESTION_MESSAGE);
+
+                        if (input.isBlank()){
+                            System.out.println("hey");
+                        }
+
+                        JOptionPane.showMessageDialog(encryptDecryptButton, "Please provide a path");
+                        selectFileDecrypt();
+                    } } catch (NullPointerException nullPointerException){
+                    JOptionPane.showConfirmDialog(encryptDecryptButton, "Are you sure to close this tab","Exit?",
+                            JOptionPane.YES_NO_OPTION);
                 }
+
+
+            }
 
 
 
         });
 
 
-        jframe.getContentPane().add(secondButton);
-        secondButton.addActionListener(new ActionListener()
+    }
+
+    public void decryptButtonAction(){
+        decryptButton.addActionListener(new ActionListener()
         {
             public void actionPerformed(ActionEvent e)
             {
@@ -84,38 +142,31 @@ public class UserInterface implements ActionListener {
                         choices[0]);
 
 
+                try {
+                    if(option.equals(optionFirst)){
 
-                if(option.equals(optionFirst)){
+                        JOptionPane.showMessageDialog(decryptButton,"Please provide a path");
+                        selectFileDecryptBruteForce();
 
-                    JOptionPane.showMessageDialog(secondButton,"Please provide a path");
-                    selectFileDecryptBruteForce();
+                    } else if (option.equals(optionTwo)) {
+                        JOptionPane.showMessageDialog(decryptButton,"Please provide a path");
+                        try {
+                            selectFileDecryptStatisticMode();
+                        } catch (IOException ex) {
+                            throw new RuntimeException(ex);
+                        }
 
-                } else if (option.equals(optionTwo)) {
-                    JOptionPane.showMessageDialog(secondButton,"Please provide a path");
-                    try {
-                        selectFileDecryptStatisticMode();
-                    } catch (IOException ex) {
-                        throw new RuntimeException(ex);
-                    }
+                    } } catch (NullPointerException nullPointerException){
+                    JOptionPane.showConfirmDialog(decryptButton, "Are you sure to close this tab","Exit?",
+                            JOptionPane.YES_NO_OPTION);
+
+
 
                 }
 
 
             }
         });
-        jframe.setLocationRelativeTo(null);
-
-        jframe.setVisible(true);
-
-
-
-
-    }
-
-
-    @Override
-    public void actionPerformed(ActionEvent e) {
-
     }
 
     public void selectFileEncrypt() {
@@ -135,7 +186,6 @@ public class UserInterface implements ActionListener {
 
     public void selectFileDecrypt() {
         JFileChooser chooser = new JFileChooser();
-        // optionally set chooser options ...
         String userHomeFolder = System.getProperty("user.home");
 
         if (chooser.showOpenDialog(jframe) == JFileChooser.APPROVE_OPTION) {
@@ -144,7 +194,7 @@ public class UserInterface implements ActionListener {
             decryption.Decryption(f.toString(),Integer.parseInt(input));
             JOptionPane.showMessageDialog(jframe,"Your file is in your " + userHomeFolder);
         } else {
-            // user changed their mind
+
         }
     }
 
@@ -158,7 +208,7 @@ public class UserInterface implements ActionListener {
            bruteForce.caesar_cipher_brute_force_attack(f.toString());
             JOptionPane.showMessageDialog(jframe,"Your file is in your " + userHomeFolder);
         } else {
-            // user changed their mind
+
         }
     }
 
@@ -188,8 +238,11 @@ public class UserInterface implements ActionListener {
 
             JOptionPane.showMessageDialog(jframe,"Your file is in your " + userHomeFolder);
         } else {
-            JOptionPane.showConfirmDialog(jframe,"Are you sure?");
+
         }
     }
+
+
+
 }
 
