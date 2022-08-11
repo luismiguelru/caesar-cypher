@@ -43,6 +43,7 @@ public class UserGUI {
         jframe.setLocationRelativeTo(null);
 
         jframe.setVisible(true);
+        JOptionPane.showMessageDialog(jframe,"Please bear in mind our tool only work with the English Alphabet");
 
 
     }
